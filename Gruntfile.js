@@ -1,3 +1,5 @@
+var exec = require('child_process').exec;
+
 module.exports = function(grunt) {
   'use strict';
   require('load-grunt-tasks')(grunt);
@@ -12,6 +14,7 @@ module.exports = function(grunt) {
         tasks: ['htmlmin:dist']
       },
       less: {
+        options: { livereload: false },
         files: 'src/less/**/*.less',
         tasks: ['less:dist', 'autoprefixer:dist', 'cssmin:dist']
       },
@@ -27,9 +30,10 @@ module.exports = function(grunt) {
           paths: ["src/less/"],
           sourceMap: true
         },
-        files: {
-          "src/dist/before.prefix.styles.css": "src/less/**/*.less"
-        }
+        src: [
+          'src/less/**/*.less'
+        ],
+        dest: "src/dist/before.prefix.styles.css"
       }
     },
 
@@ -169,4 +173,13 @@ module.exports = function(grunt) {
   grunt.registerTask('validate', ['validation']);
 
   grunt.registerTask('default', ['build', 'watch']);
+
+  grunt.registerTask('set_remote', function() {
+    var url = grunt.option('url');
+    if(!url) {
+      throw Error('Need to pass url to set new remote url with command line flag --url');
+    } else {
+      exec("git remote set-url origin " + url);
+    }
+  });
 };

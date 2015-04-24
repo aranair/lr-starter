@@ -32,3 +32,12 @@ After building:
 Everything in public folder will be pushed to gh-pages and made live.
 
 `grunt deploy`
+
+## Setting new url
+
+After cloning as a skeleton, create a new repository to push to.
+Copy that new repositorys url and set it with grunt.
+
+    set_remote --url={new_url}
+
+You can verify that the new url is set with `git remote -v`
